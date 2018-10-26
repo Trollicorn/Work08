@@ -5,26 +5,37 @@
 
 
 int sieve(int targetPrime){
-	int size = targetPrime * log(targetPrime) * 1.15 / 4;
-	int bits = size * (int)(sizeof(int));
-	int * nums = calloc(size,sizeof(int));
+	int size = (int)(targetPrime * log(targetPrime) * 1.15) >> 5;
+	int bits = size << 5;
+	printf("%d\n",bits );
+	int * nums = calloc(size,1);
 	int pr = 0;
 	int cur;
-//	printf("%d\n",bits );
+	
 	for (int bit = 2; bit < bits; bit++){
-	//	printf("i=%d, nums[i]=%d, pr=%d\n",i,nums[i],pr );
-		if (! ((nums[bit/32] >> (bit%32)) & 1)){
-			pr++;
-		//	printf("%d is %d\n", pr, nums[i]);
+	//	printf("%d\n",nums[bit>>5] & (1 << (bit&31)) );
+		if  ( nums[bit>>5] & (1 << (bit&31)) ) {
+		
+		//	pr++;
+		/*	//printf("%d\n", ( ( (nums[bit>>5] >> (bit&31)) & 1)));
+			
+		//	printf("bit=%d, nums[bit]=%d, pr=%d\n",bit,nums[bit>>5] >> (bit&31),pr );
 			if (pr == targetPrime){
+				free(nums);
 				return bit;
 			}
 			cur = bit;
 			for (int j = bit; j < bits; j += cur){
-				nums[bit/32] |= 1 << (bit%32);
+				nums[j>>5] |= (1 << (j&31));
 			}
+		*/
 		}
+		
 	}
+
+	
+	printf("%d\n",pr );
+	free(nums);
 	return -1;
 }
 /*
